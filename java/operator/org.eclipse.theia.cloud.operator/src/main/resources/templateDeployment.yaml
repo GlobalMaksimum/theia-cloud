@@ -40,6 +40,8 @@ spec:
               mountPath: /templates
             - name: oauth2-emails
               mountPath: /emails
+            - name: jobtypes-config
+              mountPath: /usr/share/henkan/conf/job-types
         - name: placeholder-definitionname
           image: placeholder-image
           imagePullPolicy: placeholder-pull-policy
@@ -91,6 +93,9 @@ spec:
         - name: oauth2-templates
           configMap:
             name: oauth2-templates
+        - name: jobtypes-config
+          configMap:
+            name: jobtypes-config
         - name: oauth2-emails
           configMap:
             name: placeholder-emailsconfigname
