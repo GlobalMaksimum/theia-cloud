@@ -40,8 +40,6 @@ spec:
               mountPath: /templates
             - name: oauth2-emails
               mountPath: /emails
-            - name: jobtypes-config
-              mountPath: /usr/share/henkan/conf/job-types
         - name: placeholder-definitionname
           image: placeholder-image
           imagePullPolicy: placeholder-pull-policy
@@ -56,6 +54,9 @@ spec:
             requests:
               cpu: placeholder-cpu-requests
               memory: placeholder-memory-requests
+          volumeMounts:
+            - name: jobtypes-config
+              mountPath: /usr/share/henkan/conf/job-types
           env:
           - name: THEIACLOUD_APP_ID
             value: placeholder-env-app-id
