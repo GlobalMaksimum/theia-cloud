@@ -19,6 +19,8 @@ spec:
         app: placeholder-app
     spec:
       automountServiceAccountToken: false
+      serviceAccount: designer
+      serviceAccountName: designer
       containers:
         - name: oauth2-proxy
           image: placeholder-oauth2-proxy-version
