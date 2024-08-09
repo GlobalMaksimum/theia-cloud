@@ -42,6 +42,9 @@ spec:
               mountPath: /templates
             - name: oauth2-emails
               mountPath: /emails
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access
+              readOnly: true              
         - name: placeholder-definitionname
           image: placeholder-image
           imagePullPolicy: placeholder-pull-policy
@@ -102,3 +105,19 @@ spec:
         - name: oauth2-emails
           configMap:
             name: placeholder-emailsconfigname
+        - name: kube-api-access
+          projected:
+            sources:
+              - serviceAccountToken:
+                  path: token # must match the path the app expects
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
