@@ -42,9 +42,6 @@ spec:
               mountPath: /templates
             - name: oauth2-emails
               mountPath: /emails
-            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-              name: kube-api-access
-              readOnly: true              
         - name: placeholder-definitionname
           image: placeholder-image
           imagePullPolicy: placeholder-pull-policy
@@ -62,6 +59,9 @@ spec:
           volumeMounts:
             - name: jobtypes-config
               mountPath: /usr/share/henkan/conf/job-types
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kube-api-access
+              readOnly: true
           env:
           - name: THEIACLOUD_APP_ID
             value: placeholder-env-app-id
