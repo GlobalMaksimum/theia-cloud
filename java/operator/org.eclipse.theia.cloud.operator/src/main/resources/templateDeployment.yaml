@@ -24,7 +24,7 @@ spec:
       containers:
         - name: oauth2-proxy
           image: placeholder-oauth2-proxy-version
-          imagePullPolicy: Always
+          imagePullPolicy: placeholder-pull-policy
           args:
             - --config=/etc/oauth2-proxy.cfg
             - --authenticated-emails-file=/emails/authenticated-emails-list
