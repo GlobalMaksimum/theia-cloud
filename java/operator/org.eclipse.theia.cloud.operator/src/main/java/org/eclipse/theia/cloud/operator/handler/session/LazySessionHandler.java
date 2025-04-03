@@ -233,8 +233,8 @@ public class LazySessionHandler implements SessionHandler {
                 return true;
             }
             createAndApplyEmailConfigMap(correlationId, sessionResourceName, sessionResourceUID, session, labelsToAdd);
-            createAndApplyProxyConfigMap(correlationId, sessionResourceName, sessionResourceUID, session,
-                    appDefinition, labelsToAdd);
+            createAndApplyProxyConfigMap(correlationId, sessionResourceName, sessionResourceUID, session, appDefinition,
+                    labelsToAdd);
         }
 
         /* Create deployment for this session */
@@ -408,8 +408,8 @@ public class LazySessionHandler implements SessionHandler {
             return;
         }
         K8sUtil.loadAndCreateConfigMapWithOwnerReference(client.kubernetes(), client.namespace(), correlationId,
-                configMapYaml, Session.API, Session.KIND, sessionResourceName, sessionResourceUID, 0,
-                labelsToAdd, configmap -> {
+                configMapYaml, Session.API, Session.KIND, sessionResourceName, sessionResourceUID, 0, labelsToAdd,
+                configmap -> {
                     configmap.setData(Collections.singletonMap(AddedHandlerUtil.FILENAME_AUTHENTICATED_EMAILS_LIST,
                             session.getSpec().getUser()));
                 });
@@ -428,8 +428,8 @@ public class LazySessionHandler implements SessionHandler {
             return;
         }
         K8sUtil.loadAndCreateConfigMapWithOwnerReference(client.kubernetes(), client.namespace(), correlationId,
-                configMapYaml, Session.API, Session.KIND, sessionResourceName, sessionResourceUID, 0,
-                labelsToAdd, configMap -> {
+                configMapYaml, Session.API, Session.KIND, sessionResourceName, sessionResourceUID, 0, labelsToAdd,
+                configMap -> {
                     String host = arguments.getInstancesHost() + ingressPathProvider.getPath(appDefinition, session);
                     int port = appDefinition.getSpec().getPort();
                     AddedHandlerUtil.updateProxyConfigMap(client.kubernetes(), client.namespace(), configMap, host,
@@ -453,8 +453,8 @@ public class LazySessionHandler implements SessionHandler {
             return;
         }
         K8sUtil.loadAndCreateDeploymentWithOwnerReference(client.kubernetes(), client.namespace(), correlationId,
-                deploymentYaml, Session.API, Session.KIND, sessionResourceName, sessionResourceUID, 0,
-                labelsToAdd, deployment -> {
+                deploymentYaml, Session.API, Session.KIND, sessionResourceName, sessionResourceUID, 0, labelsToAdd,
+                deployment -> {
 
                     LOGGER.debug("Setting session labels");
                     Map<String, String> labels = deployment.getSpec().getTemplate().getMetadata().getLabels();
@@ -522,7 +522,8 @@ public class LazySessionHandler implements SessionHandler {
                 HTTPIngressPath httpIngressPath = new HTTPIngressPath();
                 http.getPaths().add(httpIngressPath);
                 httpIngressPath.setPath(path + AddedHandlerUtil.INGRESS_REWRITE_PATH);
-                httpIngressPath.setPathType("Prefix");
+                // httpIngressPath.setPathType("Prefix");
+                httpIngressPath.setPathType("ImplementationSpecific");
 
                 IngressBackend ingressBackend = new IngressBackend();
                 httpIngressPath.setBackend(ingressBackend);
