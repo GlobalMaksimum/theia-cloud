@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk AS builder
+FROM --platform=$BUILDPLATFORM eclipse-temurin:21-jdk AS builder
 RUN apt-get update && apt-get install -y maven
 WORKDIR /conversion
 COPY java/common ./common
